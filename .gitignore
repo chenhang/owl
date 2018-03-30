@@ -1,0 +1,6 @@
+.idea
+config.py
+maomao/config.py
+*.pyc
+__pycache__
+.vscode

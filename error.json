@@ -1,0 +1,80 @@
+[{
+    "points": [2, 3],
+    "handle": "matchgame-51e53ca7-81f1-9d44-9b1f-4c5e635187ac",
+    "state": "CONCLUDED",
+    "stats": null,
+    "id": 5846,
+    "attributes": {
+        "instanceID": "05c00f0a29b70002:01fa1c952dfd00a5",
+        "mapScore": {
+            "team2": 3,
+            "team1": 2
+        },
+        "map": "junkertown"
+    },
+    "number": 1,
+    "attributesVersion": "0.1.0"
+}, {
+    "points": [2, 0],
+    "handle": "matchgame-dce98318-f809-1349-b521-1e09545fcb96",
+    "state": "CONCLUDED",
+    "stats": null,
+    "id": 5853,
+    "attributes": {
+        "instanceID": "05c00f0a29b70002:01faa5f0fac100b3",
+        "mapScore": {
+            "team2": 0,
+            "team1": 2
+        },
+        "map": "horizon-lunar-colony"
+    },
+    "number": 2,
+    "attributesVersion": "0.1.0"
+}, {
+    "points": [2, 1],
+    "handle": "matchgame-7e4fdcdc-779a-bc47-9182-5115d9d6a083",
+    "state": "CONCLUDED",
+    "stats": null,
+    "id": 5854,
+    "attributes": {
+        "instanceID": "05c00f0a29b70002:01faee653f6000b4",
+        "mapScore": {
+            "team2": 1,
+            "team1": 2
+        },
+        "map": "ilios"
+    },
+    "number": 3,
+    "attributesVersion": "0.1.0"
+}, {
+    "points": [0, 1],
+    "handle": "matchgame-dad8d9dd-e7a7-5a46-a833-47b4ea782731",
+    "state": "CONCLUDED",
+    "stats": null,
+    "id": 5855,
+    "attributes": {
+        "instanceID": "05c00f0a29b70002:01fb522c8a4700b8",
+        "mapScore": {
+            "team2": 1,
+            "team1": 0
+        },
+        "map": "numbani"
+    },
+    "number": 4,
+    "attributesVersion": "0.1.0"
+}, {
+    "points": [1, 2],
+    "state": "CONCLUDED",
+    "stats": null,
+    "id": 5868,
+    "attributes": {
+        "instanceID": null,
+        "mapScore": {
+            "team2": 2,
+            "team1": 1
+        },
+        "map": "lijiang"
+    },
+    "number": 5,
+    "attributesVersion": "0.1.0"
+}]
