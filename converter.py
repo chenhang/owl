@@ -68,6 +68,7 @@ for item in player_ranks:
     key = item['name'].lower().replace('bigg00se', 'biggoose')
     if key in players:
         item['id'] = item['overall_rank']
+        item['key'] = key
         item['player_info'] = players[key]
         item['player_id'] = players[key]['player']['id']
         item['team_info'] = {team_key: teams_by_id[players[key]
@@ -135,6 +136,7 @@ for player_hero in player_heros:
             player_hero['timePlayed'])
 
 player_pick_rate = []
+player_pick_rate_dict = {}
 for key, player_hero in player_usage.items():
     for hero, usage in player_hero['hero_usage'].items():
         usage['game_percent'] = float(
@@ -147,6 +149,10 @@ for key, player_hero in player_usage.items():
             int(usage['time_percent'] * 1000)/10.0) + '%'
 
     player_pick_rate.append(player_hero)
+    player_pick_rate_dict[key] = player_hero
+
+for item in player_ranks:
+    item['pick_rate'] = player_pick_rate_dict[key]
 
 
 team_hero_keys = ['gameNumber', 'roundtype', 'team', 'tcString',
