@@ -66,7 +66,7 @@ def update_data():
 
 def leancloud_object(name, data, id_key='id'):
     DataObject = leancloud.Object.extend(name)
-    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP and name not in ["StageRank"]:
+    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP and name not in []:
         data_object = DataObject.create_without_data(
             OBJECT_ID_MAP[object_id_key(name, data[id_key])])
     else:
@@ -101,7 +101,7 @@ def parse_standings():
             stage_rank = {**stage_rank_basic, **rank['stages'][key]}
             stage_rank['stage_id'] = key.split('stage')[-1]
             stage_rank['placement_id'] = '_'.join(
-                [key, str(stage_rank['placement'])])
+                [key, str(stage_rank['id'])])
             stage_rank['stage_name'] = stages_by_id[key]['name']
             stage_ranks.append(stage_rank)
     return stages, matches, ranks, stage_ranks, ranks_by_id
