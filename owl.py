@@ -66,7 +66,7 @@ def update_data():
 
 def leancloud_object(name, data, id_key='id'):
     DataObject = leancloud.Object.extend(name)
-    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP and name not in []:
+    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP and name not in ["StageRank"]:
         data_object = DataObject.create_without_data(
             OBJECT_ID_MAP[object_id_key(name, data[id_key])])
     else:
