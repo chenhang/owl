@@ -185,16 +185,16 @@ def upload_data():
             data_dict[item.get(info['id_key'])] = item
         print(name + " Total Count:" + str(len(info['data'])))
         print(name + " Changed Count:" + str(len(data_objects)))
-        i = 0
-        batch_size = 50
-        while True:
-            if len(data_objects[i:i+batch_size]) > 0:
-                leancloud.Object.save_all(data_objects[i:i+batch_size])
-                i += batch_size
-            else:
-                break
-        # if len(data_objects) > 0:
-        #     leancloud.Object.save_all(data_objects)
+        # i = 0
+        # batch_size = 50
+        # while True:
+        #     if len(data_objects[i:i+batch_size]) > 0:
+        #         leancloud.Object.save_all(data_objects[i:i+batch_size])
+        #         i += batch_size
+        #     else:
+        #         break
+        if len(data_objects) > 0:
+            leancloud.Object.save_all(data_objects)
         for data_object in data_objects:
             OBJECT_ID_MAP[object_id_key(
                 name, data_object.get(info['id_key']))] = data_object.id
