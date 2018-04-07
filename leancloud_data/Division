@@ -1,1 +1,1 @@
-{"Division_79": {"name": "\u5927\u897f\u6d0b\u8d5b\u533a", "abbrev": "ATL", "string": "owl.teams.divisions.atlantic", "id": "79"}, "Division_80": {"name": "\u592a\u5e73\u6d0b\u8d5b\u533a", "abbrev": "PAC", "string": "owl.teams.divisions.pacific", "id": "80"}}
+{"Division_79": {"string": "owl.teams.divisions.atlantic", "id": "79", "name": "\u5927\u897f\u6d0b\u8d5b\u533a", "abbrev": "ATL"}, "Division_80": {"string": "owl.teams.divisions.pacific", "id": "80", "name": "\u592a\u5e73\u6d0b\u8d5b\u533a", "abbrev": "PAC"}}
