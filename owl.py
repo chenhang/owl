@@ -46,7 +46,7 @@ def maps_api():
 
 
 def team_api(team_id):
-    return "https://api.overwatchleague.cn/v2/teams/" + team_id + "?expand=article,schedule&locale=zh_CN"
+    return "https://api.overwatchleague.cn/v2/teams/" + str(team_id) + "?expand=article,schedule&locale=zh_CN"
 
 
 APIS = {'live_match': live_match_api(), 'schedule': schedule_api(),
