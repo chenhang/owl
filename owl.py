@@ -1,7 +1,5 @@
 # -*- coding: utf8 -*-
 
-import os
-
 import leancloud
 from requests import get
 
@@ -45,6 +43,10 @@ def standings_v2_api():
 
 def maps_api():
     return "https://api.overwatchleague.cn/maps"
+
+
+def team_api(team_id):
+    return "https://api.overwatchleague.cn/v2/teams/" + team_id + "?expand=article,schedule&locale=zh_CN"
 
 
 APIS = {'live_match': live_match_api(), 'schedule': schedule_api(),
@@ -131,13 +133,14 @@ def upload_data():
                         'game', 'content', 'accounts', 'players',
                         'primaryColor', 'owl_division',
                         'secondaryColor', 'attributes',
-                        'homeLocation', 'id', 'icon', 'schedule']
+                        'homeLocation', 'id', 'icon']
     competitors = []
     for item in teams['competitors']:
         competitor = {key: item['competitor'][key] for key in competitors_keys}
         competitor['owl_division_info'] = division_mapping[str(
             competitor['owl_division'])]
         competitor['ranks'] = ranks_by_id[competitor['id']]
+        competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['schedule']
         competitors.append(competitor)
 
     composition_stats = load_json('data/composition_stats.json')
