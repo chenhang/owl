@@ -1,10 +1,12 @@
-#-*- coding: utf8 -*-
+# -*- coding: utf8 -*-
 
-from requests import get
-from util import *
 import os
+
 import leancloud
+from requests import get
+
 import config
+from util import *
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -12,8 +14,8 @@ leancloud.init(config.leancloud_app_id, config.leancloud_app_key)
 
 HEADERS = {
     'user-agent':
-    ('Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'
-     ),  # noqa: E501
+        ('Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'
+         ),  # noqa: E501
     'Dnt': ('1'),
     'Accept-Encoding': ('gzip, deflate, sdch'),
     'Accept-Language': ('en'),
@@ -129,7 +131,7 @@ def upload_data():
                         'game', 'content', 'accounts', 'players',
                         'primaryColor', 'owl_division',
                         'secondaryColor', 'attributes',
-                        'homeLocation', 'id', 'icon']
+                        'homeLocation', 'id', 'icon', 'schedule']
     competitors = []
     for item in teams['competitors']:
         competitor = {key: item['competitor'][key] for key in competitors_keys}
@@ -233,7 +235,7 @@ def parse_schedule():
                 year_no, week_no, week_day = datetime.datetime.fromtimestamp(
                     match_info['startDateTS'] / 1000).isocalendar()
                 match['week_no'] = current_week_no - \
-                    week_no + (current_year_no - year_no) * 52
+                                   week_no + (current_year_no - year_no) * 52
             for key, value in match_info.items():
                 match[key] = value
 
