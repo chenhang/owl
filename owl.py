@@ -140,7 +140,7 @@ def upload_data():
         competitor['owl_division_info'] = division_mapping[str(
             competitor['owl_division'])]
         competitor['ranks'] = ranks_by_id[competitor['id']]
-        competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['schedule']
+        competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['data']['schedule']
         competitors.append(competitor)
 
     composition_stats = load_json('data/composition_stats.json')
