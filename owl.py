@@ -244,7 +244,8 @@ def parse_schedule():
             for key, value in match_info.items():
                 match[key] = value
             for competitor in match['competitors']:
-                del competitor['content']
+                if competitor:
+                    del competitor['content']
 
             matches.append(match)
             stage_matches.append(match)
