@@ -243,6 +243,8 @@ def parse_schedule():
                                    week_no + (current_year_no - year_no) * 52
             for key, value in match_info.items():
                 match[key] = value
+            for competitor in match['competitors']:
+                del competitor['content']
 
             matches.append(match)
             stage_matches.append(match)
