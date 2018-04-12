@@ -141,6 +141,10 @@ def upload_data():
             competitor['owl_division'])]
         competitor['ranks'] = ranks_by_id[competitor['id']]
         competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['data']['schedule']
+        del competitor['schedule']['games']
+        for game_competitor in competitor['schedule']['competitors']:
+            del game_competitor['players']
+
         competitors.append(competitor)
 
     composition_stats = load_json('data/composition_stats.json')
@@ -211,9 +215,6 @@ def upload_data():
 
 def parse_schedule():
     schedule = load_json(data_file_name('schedule'))
-    season_start_date = schedule['data']['startDate']
-    season_end_date = schedule['data']['endDate']
-    stage_ranks = {}
     # ['id', 'enabled', 'name', 'tournaments', 'matches']
     stages = []
     matches = []
