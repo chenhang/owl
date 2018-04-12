@@ -140,13 +140,6 @@ def upload_data():
         competitor['owl_division_info'] = division_mapping[str(
             competitor['owl_division'])]
         competitor['ranks'] = ranks_by_id[competitor['id']]
-        competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['data']['schedule']
-        for schedule in competitor['schedule']:
-            del schedule['games']
-            for game_competitor in schedule['competitors']:
-                del game_competitor['players']
-
-        competitors.append(competitor)
 
     composition_stats = load_json('data/composition_stats.json')
     player_hero_stats = load_json('data/player_hero_stats.json')
@@ -154,15 +147,18 @@ def upload_data():
     team_hero_stats = load_json('data/team_hero_stats.json')
     player_ranks = load_json('data/player_ranks.json')
     hero_ranks = load_json('data/hero_ranks.json')
-    player_ranks = load_json('data/player_ranks.json')
-    hero_ranks = load_json('data/hero_ranks.json')
     player_pick_rate = load_json('data/player_pick_rate.json')
     team_pick_rate = load_json('data/team_pick_rate.json')
-
     for team_hero_stat in team_hero_stats:
         team_hero_stat['ranks'] = ranks_by_id[team_hero_stat['id']]
         team_hero_stat['owl_division_info'] = division_mapping[str(
             team_hero_stat['owl_division'])]
+        team_hero_stat['schedule'] = get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
+            'schedule']
+        for schedule in team_hero_stat['schedule']:
+            del schedule['games']
+            for game_competitor in schedule['competitors']:
+                del game_competitor['players']
 
     object_data = {
         'League': {'data': [league], 'id_key': 'id'},
@@ -198,8 +194,8 @@ def upload_data():
         i = 0
         batch_size = 50
         while True:
-            if len(data_objects[i:i+batch_size]) > 0:
-                leancloud.Object.save_all(data_objects[i:i+batch_size])
+            if len(data_objects[i:i + batch_size]) > 0:
+                leancloud.Object.save_all(data_objects[i:i + batch_size])
                 i += batch_size
             else:
                 break

@@ -1,19 +1,24 @@
-#-*- coding: utf8 -*-
+# -*- coding: utf8 -*-
 from util import *
+
 competitors = load_json('leancloud_data/Competitor')
 divisions = load_json('leancloud_data/Division')
 name_mapping = {'Boston Uprising': 'BOS', 'Dallas Fuel': 'DAL', 'Florida Mayhem': 'FLA',
                 'Los Angeles Gladiators': 'GLA', 'Houston Outlaws': 'HOU', 'London Spitfire': 'LDN',
                 'New York Excelsior': 'NYE', 'Philadelphia Fusion': 'PHI', 'Seoul Dynasty':
-                'SEO', 'San Francisco Shock': 'SFS', 'Shanghai Dragons': 'SHD', 'Los Angeles Valiant': 'VAL'}
+                    'SEO', 'San Francisco Shock': 'SFS', 'Shanghai Dragons': 'SHD', 'Los Angeles Valiant': 'VAL'}
 winstonlab_teams = {'336': 'New York Excelsior', '331': 'Houston Outlaws', '332': 'London Spitfire',
                     '318': 'Boston Uprising', '337': 'Philadelphia Fusion', '335': 'Florida Mayhem',
                     '333': 'Los Angeles Valiant', '329': 'Seoul Dynasty', '334': 'Los Angeles Gladiators',
                     '338': 'San Francisco Shock', '330': 'Dallas Fuel', '328': 'Shanghai Dragons'}
-teams = {competitor['abbreviatedName']: {**competitor, **{'owl_division_info': divisions['Division_' + str(competitor['owl_division'])]}} for _,
-         competitor in competitors.items()}
-teams_by_id = {competitor['id']: {**competitor, **{'owl_division_info': divisions['Division_' + str(competitor['owl_division'])]}} for _,
-               competitor in competitors.items()}
+teams = {competitor['abbreviatedName']: {**competitor, **{
+    'owl_division_info': divisions['Division_' + str(competitor['owl_division'])]}} for _,
+                                                                                        competitor in
+         competitors.items()}
+teams_by_id = {
+competitor['id']: {**competitor, **{'owl_division_info': divisions['Division_' + str(competitor['owl_division'])]}} for
+_,
+competitor in competitors.items()}
 competitors_keys = ['secondaryPhoto', 'addressCountry', 'handle',
                     'name', 'logo', 'abbreviatedName',
                     'game', 'accounts', 'players',
@@ -72,7 +77,7 @@ for item in player_ranks:
         item['player_info'] = players[key]
         item['player_id'] = players[key]['player']['id']
         item['team_info'] = {team_key: teams_by_id[players[key]
-                                                   ['team']['id']][team_key] for team_key in competitors_keys}
+        ['team']['id']][team_key] for team_key in competitors_keys}
         item['team_info']['players'] = []
 
         for hero_rank in item['hero_ranks']:
@@ -93,7 +98,7 @@ for item in hero_ranks:
         item['player_info'] = players[key]
         item['player_id'] = players[key]['player']['id']
         item['team_info'] = {team_key: teams_by_id[players[key]
-                                                   ['team']['id']][team_key] for team_key in competitors_keys}
+        ['team']['id']][team_key] for team_key in competitors_keys}
         item['team_info']['players'] = []
 
     else:
@@ -120,7 +125,7 @@ for player_hero in player_heros:
             player_usage[key] = {'player_info': players[key],
                                  'total_games': 0, 'total_time': 0, 'hero_usage': {}}
             player_usage[key]['team_info'] = {team_key: teams_by_id[players[key]
-                                                                    ['team']['id']][team_key] for team_key in competitors_keys}
+            ['team']['id']][team_key] for team_key in competitors_keys}
             player_usage[key]['team_info']['players'] = []
             player_usage[key]['hero_usage'] = {}
             player_usage[key]['id'] = players[key]['player']['id']
@@ -142,18 +147,17 @@ for key, player_hero in player_usage.items():
         usage['game_percent'] = float(
             usage['games']) / player_hero['total_games']
         usage['game_percent_str'] = str(
-            int(usage['game_percent'] * 1000)/10.0) + '%'
+            int(usage['game_percent'] * 1000) / 10.0) + '%'
         usage['time_percent'] = float(
             usage['time']) / player_hero['total_time']
         usage['time_percent_str'] = str(
-            int(usage['time_percent'] * 1000)/10.0) + '%'
+            int(usage['time_percent'] * 1000) / 10.0) + '%'
 
     player_pick_rate.append(player_hero)
     player_pick_rate_dict[key] = player_hero
 
 for item in player_ranks:
     item['pick_rate'] = player_pick_rate_dict[key]
-
 
 team_hero_keys = ['gameNumber', 'roundtype', 'team', 'tcString',
                   'gameWasPlayed', 'map', 'maptype', 'timePlayed', 'matchID']
@@ -165,7 +169,8 @@ for team_hero in team_heros:
         team_usage[key] = {'total_games': 0, 'total_time': 0, 'hero_usage': {
         }, 'id': name_mapping[winstonlab_teams[team_hero['team']]]}
         team_usage[key]['team_info'] = {
-            team_key: teams[name_mapping[winstonlab_teams[team_hero['team']]]][team_key] for team_key in competitors_keys}
+            team_key: teams[name_mapping[winstonlab_teams[team_hero['team']]]][team_key] for team_key in
+        competitors_keys}
         team_usage[key]['team_info']['players'] = []
         team_usage[key]['tcString'] = {}
     hero_key = team_hero['tcString'].replace('soldier76', 'soldier-76')
@@ -184,11 +189,11 @@ for key, team_hero in team_usage.items():
         usage['game_percent'] = float(
             usage['games']) / team_hero['total_games']
         usage['game_percent_str'] = str(
-            int(usage['game_percent'] * 1000)/10.0) + '%'
+            int(usage['game_percent'] * 1000) / 10.0) + '%'
         usage['time_percent'] = float(
             usage['time']) / team_hero['total_time']
         usage['time_percent_str'] = str(
-            int(usage['time_percent'] * 1000)/10.0) + '%'
+            int(usage['time_percent'] * 1000) / 10.0) + '%'
     team_pick_rate.append(team_hero)
 
 write_json('data/team_hero_stats.json', team_hero_stats)
