@@ -141,9 +141,10 @@ def upload_data():
             competitor['owl_division'])]
         competitor['ranks'] = ranks_by_id[competitor['id']]
         competitor['schedule'] = get(team_api(competitor["id"]), headers=HEADERS, timeout=50).json()['data']['schedule']
-        del competitor['schedule']['games']
-        for game_competitor in competitor['schedule']['competitors']:
-            del game_competitor['players']
+        for schedule in competitor['schedule']:
+            del schedule['games']
+            for game_competitor in schedule['competitors']:
+                del game_competitor['players']
 
         competitors.append(competitor)
 
