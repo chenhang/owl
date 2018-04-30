@@ -26,18 +26,18 @@ competitors_keys = ['secondaryPhoto', 'addressCountry', 'handle',
                     'secondaryColor', 'attributes',
                     'homeLocation', 'id', 'icon']
 
-composition_stats = load_json('stats/composition_stats.json')
+composition_stats = load_json('winston_lab/composition_stats.json')
 for item in composition_stats:
     item['id'] = '_'.join([''.join([pos[0] for pos in sorted(item['composition'])]),
                            item['category'], item['map_name']]).lower()
 
-player_hero_stats = load_json('stats/player_hero_stats.json')
+player_hero_stats = load_json('winston_lab/player_hero_stats.json')
 for item in player_hero_stats:
     item['id'] = '_'.join(['_'.join(sorted(item['heros'])),
                            item['category'], item['map_name']]).lower()
 
 # PLAYERS
-player_stats = load_json('stats/player_stats.json')
+player_stats = load_json('winston_lab/player_stats.json')
 players = {}
 player_stats_avg_min = {}
 player_stats_keys = ['map_played', 'kills', 'deathes',
@@ -67,8 +67,8 @@ for item in player_stats:
         print(item['name'])
         del item
 
-player_ranks = load_json('stats/player_ranks.json')
-hero_ranks = load_json('stats/hero_ranks.json')
+player_ranks = load_json('winston_lab/player_ranks.json')
+hero_ranks = load_json('winston_lab/hero_ranks.json')
 for item in player_ranks:
     key = item['name'].lower().replace('bigg00se', 'biggoose')
     if key in players:
@@ -106,7 +106,7 @@ for item in hero_ranks:
         del item
 
 # TEAMS
-team_hero_stats = load_json('stats/team_hero_stats.json')
+team_hero_stats = load_json('winston_lab/team_hero_stats.json')
 for item in team_hero_stats:
     item['winstonlab_id'] = item['id']
     item['en_name'] = item['name']
@@ -116,7 +116,7 @@ for item in team_hero_stats:
 player_hero_keys = ['gameNumber', 'roundtype', 'player', 'team', 'hero', 'timePlayed',
                     'matchID', 'playerPic', 'playerName', 'teamPic', 'nameCSFriendly', 'map', 'teamName']
 
-player_heros = load_json('stats/player_heros.json')
+player_heros = load_json('winston_lab/player_heros.json')
 player_usage = {}
 for player_hero in player_heros:
     key = player_hero['playerName'].lower().replace('bigg00se', 'biggoose')
@@ -161,7 +161,7 @@ for item in player_ranks:
 
 team_hero_keys = ['gameNumber', 'roundtype', 'team', 'tcString',
                   'gameWasPlayed', 'map', 'maptype', 'timePlayed', 'matchID']
-team_heros = load_json('stats/team_heros.json')
+team_heros = load_json('winston_lab/team_heros.json')
 team_usage = {}
 for team_hero in team_heros:
     key = team_hero['team']

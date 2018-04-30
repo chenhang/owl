@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
 import leancloud
+import pytz
 from requests import get
 
 import config
@@ -215,7 +216,8 @@ def parse_schedule():
     # ['id', 'enabled', 'name', 'tournaments', 'matches']
     stages = []
     matches = []
-    current_year_no, current_week_no, current_week_day = datetime.date.today().isocalendar()
+    current_year_no, current_week_no, current_week_day = datetime.datetime.now(
+        tz=pytz.timezone('Asia/Shanghai')).isocalendar()
     for stage_info in schedule['data']['stages']:
         stage = stage_info
         stage_matches = []
@@ -234,7 +236,7 @@ def parse_schedule():
                      'stageName': stage_info['name']}
             if match_info['startDateTS']:
                 year_no, week_no, week_day = datetime.datetime.fromtimestamp(
-                    match_info['startDateTS'] / 1000).isocalendar()
+                    match_info['startDateTS'] / 1000, tz=pytz.timezone('Asia/Shanghai')).isocalendar()
                 match['week_no'] = current_week_no - \
                                    week_no + (current_year_no - year_no) * 52
             for key, value in match_info.items():
