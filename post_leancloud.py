@@ -41,7 +41,15 @@ def leancloud_object(name, data, id_key='id'):
     return data_object
 
 
-def get_schedule():
+MATCH_KEYS = ['bestOf', 'conclusionStrategy', 'wins', 'ordinal', 'startDateTS', 'winnersNextMatch', 'winnerRound',
+              'games', 'tournament', 'round', 'winnerOrdinal', 'id',
+              'state', 'flags', 'ties', 'conclusionValue', 'startDate',
+              'losses', 'endDate', 'scores']
+TEAM_KEYS = ['primaryColor', 'secondaryColor', 'abbreviatedName', 'game', 'id',
+             'homeLocation', 'secondaryPhoto', 'icon', 'addressCountry', 'name', 'logo']
+
+
+def get_matches():
     schedule = load_json(data_file_name('schedule'))
     # ['id', 'enabled', 'name', 'tournaments', 'matches']
     matches = []
@@ -62,24 +70,37 @@ def get_schedule():
             match = {'stageId': stage_info['id'],
                      'stageName': stage_info['name']}
             if match_info['startDateTS']:
-                print(match_info['id'], match_info['startDateTS'])
                 year_no, week_no, week_day = datetime.datetime.fromtimestamp(
                     match_info['startDateTS'] / 1000, tz=pytz.timezone('Asia/Shanghai')).isocalendar()
                 match['week_no'] = current_week_no - \
                                    week_no + (current_year_no - year_no) * 52
-            for key, value in match_info.items():
-                match[key] = value
-            for competitor in match['competitors']:
-                if competitor:
-                    del competitor['content']
-
+            for key in MATCH_KEYS:
+                match[key] = match_info.get(key, None)
+            match['winner'] = {key: value for key, value in match_info.get('winner', {}).items() if key in TEAM_KEYS}
+            match['teams'] = [{key: value for key, value in team.items() if key in TEAM_KEYS} for team in
+                              match_info['competitors'] if team is not None]
             matches.append(match)
+            if match['state'] == 'PENDING':
+                pending_wins = [0, 0]
+                for game in match['games']:
+                    if game['state'] == 'CONCLUDED':
+                        if game['points'][0] > game['points']:
+                            pending_wins[0] += 1
+                        elif game['points'][0] < game['points']:
+                            pending_wins[1] += 1
+                        else:
+                            pending_wins = [x + 1 for x in pending_wins]
+                match['pending_wins'] = pending_wins
+                match['pending_state'] = 'ON_GOING' if sum(pending_wins) > 0 else 'PENDING'
+            if '2' in stage_info['name']:
+                print(match)
+                print()
     return matches
 
 
 def upload_data():
     object_data = {
-        'Schedule': {'data': get_schedule(), 'id_key': 'id'},
+        'Schedule': {'data': get_matches(), 'id_key': 'id'},
     }
 
     for name, info in object_data.items():
@@ -117,4 +138,4 @@ if __name__ == '__main__':
     LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('official_data/object_id_map.json')
     # upload_data()
-    get_schedule()
+    get_matches()
