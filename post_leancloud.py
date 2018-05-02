@@ -98,9 +98,15 @@ def get_matches():
     return matches
 
 
+def get_teams():
+    teams = load_json(data_file_name('teams'))
+    
+
+
 def upload_data():
     object_data = {
-        'Schedule': {'data': get_matches(), 'id_key': 'id'},
+        'Matches': {'data': get_matches(), 'id_key': 'id'},
+        'Teams': {'data': get_teams(), 'id_key': 'id'},
     }
 
     for name, info in object_data.items():
