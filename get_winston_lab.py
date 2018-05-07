@@ -28,17 +28,37 @@ def player_rank_url(event_id=86):
     return "https://www.winstonslab.com/player_rankings/singleEvent.php?id=" + str(event_id)
 
 
+def matches_url(event_id=86, page=1):
+    return "https://www.winstonslab.com/lib/matchTable.php?page=" + str(page) + \
+           "&currentLanguageID=4&dateGreater=&dateSmaller=&event%5B%5D=" + \
+           str(event_id) + \
+           "&specificMatchupTeam1=0&specificMatchupTeam2=0&team%5B%5D=&map%5B%5D="
+
+
+def get_matches():
+    session = HTMLSession()
+    page = 1
+    while True:
+        print(page)
+        res = session.get(matches_url(page=page))
+        match_rows = res.html.find('#past > table > tbody > .past-matches-row')
+        if len(match_rows) <= 0:
+            break
+        for row in match_rows:
+            parse_match_row(row)
+        page += 1
+
+
 def get_teams_and_matches():
     session = HTMLSession()
     res = session.get(owl_index_url())
     res.html.render(timeout=60)
-    # match_rows = res.html.find(
-    #     '.tab-pane#past')[0].find('table')[0].find('.past-matches-row')
+    match_rows = res.html.find(
+        '.tab-pane#past')[0].find('table')[0].find('.past-matches-row')
     updated = True
-    # TODO get match data in future
-    # for row in match_rows:
-    #     if parse_match_row(row):
-    #         updated = True
+    for row in match_rows:
+        if parse_match_row(row):
+            updated = True
     if updated:
         teams = {td.text: td.absolute_links.pop()
                  for td in res.html.find('td.team')}
@@ -146,7 +166,6 @@ def parse_match_row(row):
         'stats', 'matches', row.attrs['matchid'] + '.json')
     if os.path.exists(match_path):
         return False
-    match = {}
     session = HTMLSession()
     match_res = session.get(match_url(row.attrs['matchid']))
     render_result = match_res.html.render(timeout=600)
@@ -262,7 +281,7 @@ if __name__ == '__main__':
     if not os.path.exists('winston_lab'):
         os.mkdir('winston_lab')
     logging.basicConfig(level=logging.ERROR)
-    get_player_stats()
-    get_hero_stats()
-    get_teams_and_matches()
-    get_event_player_rank()
+    # get_player_stats()
+    # get_hero_stats()
+    get_matches()
+    # get_event_player_rank()
