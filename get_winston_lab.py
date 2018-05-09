@@ -281,7 +281,7 @@ if __name__ == '__main__':
     if not os.path.exists('winston_lab'):
         os.mkdir('winston_lab')
     logging.basicConfig(level=logging.ERROR)
-    # get_player_stats()
-    # get_hero_stats()
-    get_matches()
-    # get_event_player_rank()
+    get_player_stats()
+    get_hero_stats()
+    # get_matches()
+    get_event_player_rank()
