@@ -244,9 +244,9 @@ def parse_schedule():
             for competitor in match['competitors']:
                 if competitor:
                     del competitor['content']
-
-            matches.append(match)
-            stage_matches.append(match)
+            if match_info['startDateTS'] / 1000 < datetime.datetime.now().timestamp() + 7 * 24 * 3600 and match_info['startDateTS'] / 1000 > datetime.datetime.now().timestamp() - 7 * 24 * 3600:
+                matches.append(match)
+                stage_matches.append(match)
         del stage['matches']  # stage_matches
         for week in stage['weeks']:
             del week['matches']
