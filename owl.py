@@ -151,7 +151,9 @@ def upload_data():
     player_pick_rate = load_json('data/player_pick_rate.json')
     team_pick_rate = load_json('data/team_pick_rate.json')
     for team_hero_stat in team_hero_stats:
-        team_hero_stat['ranks'] = ranks_by_id[team_hero_stat['id']]
+        # print(team_hero_stat)
+        # print(ranks_by_id)
+        team_hero_stat['ranks'] = ranks_by_id[int(team_hero_stat['id'])]
         team_hero_stat['owl_division_info'] = division_mapping[str(
             team_hero_stat['owl_division'])]
         team_hero_stat['schedule'] = get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
