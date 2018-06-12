@@ -53,12 +53,12 @@ def get_teams_and_matches():
     session = HTMLSession()
     res = session.get(owl_index_url())
     res.html.render(timeout=60)
-    match_rows = res.html.find(
-        '.tab-pane#past')[0].find('table')[0].find('.past-matches-row')
+    # match_rows = res.html.find(
+    #     '.tab-pane#past')[0].find('table')[0].find('.past-matches-row')
     updated = True
-    for row in match_rows:
-        if parse_match_row(row):
-            updated = True
+    # for row in match_rows:
+    #     if parse_match_row(row):
+    #         updated = True
     if updated:
         teams = {td.text: td.absolute_links.pop()
                  for td in res.html.find('td.team')}
@@ -283,5 +283,6 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
     get_player_stats()
     get_hero_stats()
+    get_teams_and_matches()
     # get_matches()
     get_event_player_rank()
