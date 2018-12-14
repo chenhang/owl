@@ -156,8 +156,8 @@ def upload_data():
         team_hero_stat['ranks'] = ranks_by_id[int(team_hero_stat['id'])]
         team_hero_stat['owl_division_info'] = division_mapping[str(
             team_hero_stat['owl_division'])]
-        team_hero_stat['schedule'] = get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
-            'schedule']
+        team_hero_stat['schedule'] = []#get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
+            #'schedule']
         for schedule in team_hero_stat['schedule']:
             del schedule['games']
             for game_competitor in schedule['competitors']:
