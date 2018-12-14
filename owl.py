@@ -88,7 +88,8 @@ def parse_standings():
     stage_ranks = []
     ranks_by_id = {rank['id']: rank for rank in standings_v2['data']}
     stages, matches = parse_schedule()
-    stages_by_id = {('stage' + str(stage['id'])): stage for stage in stages}
+    stages_by_id = {
+        ('stage' + str(stage['id'] + 1)): stage for stage in stages}
     stage_ranks_keys = ['id', 'divisionId', 'name', 'abbreviatedName',
                         'logo', 'colors']
     for rank in standings_v2['data']:
@@ -260,5 +261,5 @@ def parse_schedule():
 if __name__ == '__main__':
     LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('data/object_id_map.json')
-    update_data()
+    # update_data()
     upload_data()
