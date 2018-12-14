@@ -183,6 +183,7 @@ def upload_data():
 
     for name, info in object_data.items():
         data_objects = []
+        print(name)
         LEANCLOUD_OBJECT_DATA = load_json(os.path.join('leancloud_data', name))
         data_dict = {}
         for item in info['data']:
