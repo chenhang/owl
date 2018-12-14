@@ -83,7 +83,7 @@ def leancloud_object(name, data, id_key='id'):
 
 def parse_standings():
     standings = load_json(data_file_name('standings'))
-    ranks = standings['ranks']
+    ranks = standings['ranks'] if 'ranks' in standings else []
     standings_v2 = load_json(data_file_name('standings_v2'))
     stage_ranks = []
     ranks_by_id = {rank['id']: rank for rank in standings_v2['data']}
@@ -156,8 +156,9 @@ def upload_data():
         team_hero_stat['ranks'] = ranks_by_id[int(team_hero_stat['id'])]
         team_hero_stat['owl_division_info'] = division_mapping[str(
             team_hero_stat['owl_division'])]
-        team_hero_stat['schedule'] = []#get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
-            #'schedule']
+        # get(team_api(team_hero_stat["id"]), headers=HEADERS, timeout=50).json()['data'][
+        team_hero_stat['schedule'] = []
+        #'schedule']
         for schedule in team_hero_stat['schedule']:
             del schedule['games']
             for game_competitor in schedule['competitors']:
@@ -240,7 +241,7 @@ def parse_schedule():
                 year_no, week_no, week_day = datetime.datetime.fromtimestamp(
                     match_info['startDateTS'] / 1000, tz=pytz.timezone('Asia/Shanghai')).isocalendar()
                 match['week_no'] = current_week_no - \
-                                   week_no + (current_year_no - year_no) * 52
+                    week_no + (current_year_no - year_no) * 52
             for key, value in match_info.items():
                 match[key] = value
             for competitor in match['competitors']:
