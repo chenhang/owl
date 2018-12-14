@@ -262,5 +262,5 @@ def parse_schedule():
 if __name__ == '__main__':
     LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('data/object_id_map.json')
-    # update_data()
+    update_data()
     upload_data()
